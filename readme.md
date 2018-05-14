@@ -12,4 +12,5 @@ Python
 ```
 Inbox - Smart Contract with Solidity
 Lottery - Smart Contract with Solidity
+Lottery React - Frontend with ReactJS for our Lottery Contract
 ```
