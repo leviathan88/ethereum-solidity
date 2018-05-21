@@ -28,7 +28,15 @@ class Blockchain {
 
     return true
   }
-  
+
+  replaceChain(newChain) {
+    if (this.chain.length >= newChain.length) return false
+    if(!this.isValidChain(newChain)) return false
+
+    this.chain = newChain
+    return true
+  }
+
 }
 
 export default Blockchain
