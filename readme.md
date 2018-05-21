@@ -1,4 +1,5 @@
-# Ethereum Solidity Projects & Building Cryptocurrency Projects
+# Blockchain and Cryptocurrency from Scratch projects
+# Ethereum Solidity Projects
 
 ### Languages Used
 ```
