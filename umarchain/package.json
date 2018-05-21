@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app/server.js --exec babel-node",
+    "start-another": "set HTTP_PORT=3002 && set P2P_PORT=5002 && set PEERS=ws://localhost:5001 && npm run start",
     "test": "mocha --compilers js:babel-register"
   },
   "keywords": [
@@ -24,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "crypto-js": "^3.1.9-1",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "ws": "^5.1.1"
   }
 }
