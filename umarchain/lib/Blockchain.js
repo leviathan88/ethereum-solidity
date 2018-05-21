@@ -8,10 +8,27 @@ class Blockchain {
   addBlock(data) {
     const lastBlock = this.chain[this.chain.length - 1]
     const newBlock = Block.mineBlock(lastBlock, data)
-    this.chain.push(block)
+    this.chain.push(newBlock)
 
     return newBlock
   }
+
+  isValidChain(chain) {
+    if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
+
+    for (let i = 1; i < chain.length; i++) {
+      const currentBlock = chain[i]
+      const previousBlock = chain[i - 1]
+
+      if (currentBlock.lastHash !== previousBlock.hash ||
+          currentBlock.hash !== Block.blockHash(currentBlock)) {
+        return false
+      }
+    }
+
+    return true
+  }
+  
 }
 
 export default Blockchain
