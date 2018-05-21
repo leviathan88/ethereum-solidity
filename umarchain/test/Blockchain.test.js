@@ -40,4 +40,14 @@ describe('Blockchain Tests', () => {
 
     assert(!blockchain.isValidChain(bc2.chain))
   })
+
+  it('should replace with new chain', () => {
+    bc2.addBlock('something wild')
+    assert(blockchain.replaceChain(bc2.chain))
+  })
+
+  it('should not replace with new shorter chain', () => {
+    blockchain.addBlock('original block')
+    assert(!blockchain.replaceChain(bc2.chain))
+  })
 })
