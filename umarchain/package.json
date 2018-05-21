@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node",
+    "start": "nodemon app/server.js --exec babel-node",
     "test": "mocha --compilers js:babel-register"
   },
   "keywords": [
@@ -22,6 +22,8 @@
     "nodemon": "^1.17.4"
   },
   "dependencies": {
-    "crypto-js": "^3.1.9-1"
+    "body-parser": "^1.18.3",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.16.3"
   }
 }
