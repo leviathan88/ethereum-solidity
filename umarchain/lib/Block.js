@@ -1,14 +1,15 @@
 import { SHA256 } from 'crypto-js'
 
 import { shorten } from '../utils/helpers'
-import { GENESIS_TIME } from '../utils/constants'
+import { GENESIS_TIME, DIFFICULTY } from '../utils/constants'
 
 class Block {
-  constructor(timestamp, lastHash, hash, data) {
+  constructor(timestamp, lastHash, hash, data, nonce) {
     this.timestamp = timestamp
     this.lastHash = lastHash
     this.hash = hash
     this.data = data
+    this.nonce = nonce
   }
 
   toString() {
@@ -16,31 +17,39 @@ class Block {
       Timestamp: ${this.timestamp}
       Last Hash: ${shorten(this.lastHash)}
       Hash     : ${shorten(this.hash)}
+      Nonce    : ${this.nonce}
       Data     : ${this.data}
     `
   }
 
   static genesis() {
-    return new this(GENESIS_TIME, '-------', 'f1rg-sdgsg', [])
+    return new this(GENESIS_TIME, '-------', 'f1rg-sdgsg', [], 0)
   }
 
-  static mineBlock(lastBlock, data) {
-    const timestamp = Date.now()
+  static mineBlock(lastBlock, data) {    
     const lastHash = lastBlock.hash
 
-    const hash = Block.hash(timestamp, lastHash, data)
+    let timestamp
+    let hash
+    let nonce = 0   
 
-    return new this(timestamp, lastHash, hash, data)
+    do {
+      nonce++
+      timestamp = Date.now()
+      hash = Block.hash(timestamp, lastHash, data, nonce)
+    } while (hash.substring(0, DIFFICULTY) !== '0'.repeat(DIFFICULTY))
+
+    return new this(timestamp, lastHash, hash, data, nonce)
   }
 
-  static hash(timestamp, lastHash, data) {
-    return SHA256(`${timestamp}${lastHash}${data}`).toString()
+  static hash(timestamp, lastHash, data, nonce) {
+    return SHA256(`${timestamp}${lastHash}${data}${nonce}`).toString()
   }
   
   static blockHash(block) {
-    const { timestamp, lastHash, data } = block
+    const { timestamp, lastHash, data, nonce } = block
 
-    return Block.hash(timestamp, lastHash, data)
+    return Block.hash(timestamp, lastHash, data, nonce)
   }
 }
 
