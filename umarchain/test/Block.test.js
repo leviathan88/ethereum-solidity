@@ -23,6 +23,14 @@ describe('Block Tests', () => {
   })
 
   it('generates a hash that matches the difficulty', () => {    
-    assert.equal(block.hash.substring(0, DIFFICULTY), '0'.repeat(DIFFICULTY))    
+    assert.equal(block.hash.substring(0, block.difficulty), '0'.repeat(block.difficulty))
+  })
+
+  it('lowers the difficulty for slowly mined blocks', () => {
+    assert.equal(Block.adjustDifficulty(block, block.timestap + 36000), block.difficulty - 1)
+  })
+
+  it('raises the difficulty for quickly mined blocks', () => {
+    assert.equal(Block.adjustDifficulty(block, block.timestap), block.difficulty + 1)
   })
 })
