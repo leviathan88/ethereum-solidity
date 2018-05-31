@@ -1,26 +1,28 @@
 import Block from '../lib/Block'
 import assert from 'assert'
-import { GENESIS_TIME } from '../utils/constants';
+import { GENESIS_TIME, DIFFICULTY } from '../utils/constants'
 
 describe('Block Tests', () => {
 
-  let block
+  let block;
+  let genesis;
+  let data;
 
   beforeEach(() => {
-    block = new Block('foo', 'bar', 'zoo', 'bazooka')
-  })
-  
-
-  it('should check for creation of new Block', () => {
-    assert.equal(block.timestamp, 'foo')
-  })
+    genesis = Block.genesis()
+    data = 'Super Data'
+    block = Block.mineBlock(genesis, data)
+  }) 
 
   it('shoud get Genesis Block', () => {
-    assert.equal(Block.genesis().timestamp, GENESIS_TIME)
+    assert.equal(genesis.timestamp, GENESIS_TIME)
   })
 
-  it('should mine new Block', () => {
-    const newBlock = Block.mineBlock(block, 'Super Data!')
-    assert.equal(newBlock.data, 'Super Data!')
+  it('should mine new Block', () => {    
+    assert.equal(block.data, data)
+  })
+
+  it('generates a hash that matches the difficulty', () => {    
+    assert.equal(block.hash.substring(0, DIFFICULTY), '0'.repeat(DIFFICULTY))    
   })
 })
